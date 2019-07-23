@@ -20,6 +20,8 @@ import DroneMissionFunctions
 class CreateMissionDialog(FloatLayout):
     create = ObjectProperty(None)
     cancel = ObjectProperty(None)
+    ShowFinishedText = 0
+
 
 class RenameDialog(FloatLayout):
     rename = ObjectProperty(None)
@@ -29,7 +31,8 @@ class RenameDialog(FloatLayout):
 
 class Root(FloatLayout):
     loadfile = ObjectProperty(None)
-    text_input = ObjectProperty(None)
+    text_input_create = ObjectProperty(None)
+    text_input_rename = ObjectProperty(None)
 
     def dismiss_popup(self):  #
         self._popup.dismiss()
@@ -48,19 +51,20 @@ class Root(FloatLayout):
 
     def create(self, path, filename):  # Loads the selected directory
         DroneMissionFunctions.DroneMissionPoints(os.path.join(path, filename[0]))
-        self.text_input.text = "All Done"
+        # if(CreateMissionDialog.ShowFinishedText):
+        self.text_input_create.text = str(CreateMissionDialog.ShowFinishedText)
         self.dismiss_popup()
 
     def rename(self, path, filename):
-        DroneMissionFunctions.RenamePictures(os.path.join(path,filename[0]))
-        self.text_input.text = "All Done"
+        DroneMissionFunctions.RenamePictures(os.path.join(path, filename[0]))
+        self.text_input_rename.text = "All Done"
 
         self.dismiss_popup()
-
 
 
 class Launcher(App):
     pass
+
 
 Factory.register('Root', cls=Root)
 Factory.register('CreateMissionDialog', cls=CreateMissionDialog)

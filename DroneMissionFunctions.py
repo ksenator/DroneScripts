@@ -182,5 +182,4 @@ def dms2dd(degrees, minutes, seconds, direction):
         dd *= -1
     return dd
 
-
 # RenamePictures(r'C:\Users\capps\Desktop\pics')

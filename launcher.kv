@@ -1,7 +1,8 @@
 #:kivy 1.1.0
 
 Root:
-    text_input: text_input
+    text_input: text_input_create
+    text_input: text_input_rename
 
     BoxLayout:
         orientation: 'vertical'
@@ -17,12 +18,12 @@ Root:
 
         BoxLayout:
             TextInput:
-                id: text_input
+                id: text_input_create
                 text: ''
 
-            RstDocument:
-                text: text_input.text
-                show_errors: True
+            TextInput:
+                id: text_input_rename
+                text: ''
 
 <CreateMissionDialog>
     BoxLayout:
