@@ -11,7 +11,7 @@ import pandas
 
 def DroneMissionPoints(FilePath):
     # Static Variables
-    BasePath = "C:\DroneScripts\litchi_base.csv"
+    BasePath = r"\Users\capps\PycharmProjects\DroneScripts\litchi_base.csv"
     MissionName = "LitchiHubImport.csv"
     OrderFileName = "PairingData.csv"
 
