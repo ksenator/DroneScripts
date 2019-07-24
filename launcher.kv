@@ -1,8 +1,6 @@
 #:kivy 1.1.0
 
 Root:
-    text_input: text_input_create
-    text_input: text_input_rename
 
     BoxLayout:
         orientation: 'vertical'
@@ -18,11 +16,11 @@ Root:
 
         BoxLayout:
             TextInput:
-                id: text_input_create
+                id: create_field
                 text: ''
 
             TextInput:
-                id: text_input_rename
+                id: rename_field
                 text: ''
 
 <CreateMissionDialog>
@@ -33,6 +31,7 @@ Root:
         FileChooserListView:
             id: filechooser
             dirselect: True
+            filters: ['*.csv']
 
         BoxLayout:
             size_hint_y: None

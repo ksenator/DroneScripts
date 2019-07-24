@@ -16,11 +16,12 @@ from kivy.uix.popup import Popup
 
 import DroneMissionFunctions
 
+message1 = "Now go to the program folder and move the 'PairingData.csv' file to the folder where the pictures from the mission will be stored"
+message2 = "To upload the mission to litchi, go to the LichiHub website and upload 'LitchiHubImport.csv'"
 
 class CreateMissionDialog(FloatLayout):
     create = ObjectProperty(None)
     cancel = ObjectProperty(None)
-    ShowFinishedText = 0
 
 
 class RenameDialog(FloatLayout):
@@ -31,8 +32,7 @@ class RenameDialog(FloatLayout):
 
 class Root(FloatLayout):
     loadfile = ObjectProperty(None)
-    text_input_create = ObjectProperty(None)
-    text_input_rename = ObjectProperty(None)
+    savefile = ObjectProperty(None)
 
     def dismiss_popup(self):  #
         self._popup.dismiss()
@@ -52,12 +52,19 @@ class Root(FloatLayout):
     def create(self, path, filename):  # Loads the selected directory
         DroneMissionFunctions.DroneMissionPoints(os.path.join(path, filename[0]))
         # if(CreateMissionDialog.ShowFinishedText):
-        self.text_input_create.text = str(CreateMissionDialog.ShowFinishedText)
+        self.ids.create_field.text = message1 + "\n" +message2
         self.dismiss_popup()
 
     def rename(self, path, filename):
+        ImageCount = DroneMissionFunctions.HowManyDJIImages(os.path.join(path, filename[0]))
         DroneMissionFunctions.RenamePictures(os.path.join(path, filename[0]))
-        self.text_input_rename.text = "All Done"
+        NotRenamedCount = ImageCount - DroneMissionFunctions.HowManyDJIImages(os.path.join(path, filename[0]))
+        if NotRenamedCount == 0:
+            self.ids.rename_field.text = "All the images were renamed"
+        if NotRenamedCount > 1:
+            self.ids.rename_field.text = str(NotRenamedCount) + " images were not renamed"
+        elif NotRenamedCount > 0:
+            self.ids.rename_field.text = str(NotRenamedCount) + " image was not renamed"
 
         self.dismiss_popup()
 

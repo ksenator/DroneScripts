@@ -46,7 +46,7 @@ def DroneMissionPoints(FilePath):
     IdList = pandas.Series.to_list(Data.objectid)
 
     # Zip everything important for renaming together
-    ForFileRenaming = sorted(zip(LatList, LonList, IdList))
+    ForFileRenaming = sorted(zip(LonList, LatList, IdList))
 
     # Variables for the loop
     NumberOfPoints = len(LatList)
@@ -57,8 +57,6 @@ def DroneMissionPoints(FilePath):
     while i < NumberOfPoints:
         RowTemplate[0] = LatList[i]
         RowTemplate[1] = LonList[i]
-        RowTemplate[40] = LatList[i]
-        RowTemplate[41] = LonList[i]
         NewData = NewData.append(RowTemplate, ignore_index=True)
         i += 1
 
@@ -148,7 +146,7 @@ def RenamePictures(FilePath):
         i = 0
         Option = 0
         MinDistance = 1000
-        for potentialMatch in PairsOfPoles:  # every picture needs to go through all of the possible poles
+        for potentialMgatch in PairsOfPoles:  # every picture needs to go through all of the possible poles
             AbsDistance = mpu.haversine_distance(pair, potentialMatch)  # distance between them
             if AbsDistance < MinDistance:  # as you go through the poles, set the closest one as the one to match with
                 Option = i
@@ -182,4 +180,18 @@ def dms2dd(degrees, minutes, seconds, direction):
         dd *= -1
     return dd
 
-# RenamePictures(r'C:\Users\capps\Desktop\pics')
+RenamePictures(r'C:\Users\capps\Desktop\pics')
+
+def HowManyDJIImages(FilePath):
+    # initialize all the data storage and set the path to where the pictures are #####
+    FileNames = os.listdir(FilePath)
+    PictureList = []
+    DJIImagesCount = 0
+    # Creates a list of jpeg files in the current directory ##################################
+    for file in FileNames:
+        if file[len(file) - 3:len(file)] == 'JPG':  # is the file a JPG
+            PictureList.append(FilePath + "\\" + file)  # if it is, put it in the list of pictures
+    for picture in PictureList:
+        if picture[0:3] == 'DJI':
+            DJIImagesCount += 1
+    return DJIImagesCount
