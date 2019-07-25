@@ -16,8 +16,6 @@ from kivy.uix.popup import Popup
 
 import DroneMissionFunctions
 
-message1 = "Now go to the program folder and move the 'PairingData.csv' file to the folder where the pictures from the mission will be stored"
-message2 = "To upload the mission to litchi, go to the LichiHub website and upload 'LitchiHubImport.csv'"
 
 class CreateMissionDialog(FloatLayout):
     create = ObjectProperty(None)
@@ -51,7 +49,7 @@ class Root(FloatLayout):
 
     def create(self, path, filename):  # Loads the selected directory
         DroneMissionFunctions.DroneMissionPoints(os.path.join(path, filename[0]))
-        self.ids.create_field.text = message1 + "\n" +message2
+        self.ids.create_field.text = "To upload the mission to litchi, go to the LichiHub website and upload 'LitchiHubImport.csv'"
         self.dismiss_popup()
 
     def rename(self, path, filename):
@@ -61,9 +59,9 @@ class Root(FloatLayout):
         if NotRenamedCount == 0:
             self.ids.rename_field.text = "All the images were renamed"
         if NotRenamedCount > 1:
-            self.ids.rename_field.text = str(NotRenamedCount) + " of " + str(ImageCount) + " images were not renamed"
+            self.ids.rename_field.text = str(NotRenamedCount) + " of " + str(ImageCount) + " images were not renamed because they were taken too far away from the poles"
         elif NotRenamedCount > 0:
-            self.ids.rename_field.text = str(NotRenamedCount) + " of " + str(ImageCount) + " image was not renamed"
+            self.ids.rename_field.text = str(NotRenamedCount) + " of " + str(ImageCount) + " image was not renamed becasue it was taken too far away from the pole"
 
         self.dismiss_popup()
 

@@ -121,7 +121,7 @@ def RenamePictures(FilePath):
         LongitudeList.append(Longitude)
 
     # This is the data from the route planner that gets carried over.
-    Data = pandas.read_csv("/Users/capps/Desktop/pics/PairingData.csv")
+    Data = pandas.read_csv(r"\Users\capps\PycharmProjects\DroneScripts\PairingData.csv")
     LatitudesFromData = pandas.Series.to_list(Data.iloc[:, 1])
     LongitudesFromData = pandas.Series.to_list(Data.iloc[:, 0])
     ObjectIDFromData = pandas.Series.to_list(Data.iloc[:, 2])
