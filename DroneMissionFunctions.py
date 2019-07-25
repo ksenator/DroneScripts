@@ -61,7 +61,7 @@ def DroneMissionPoints(FilePath):
         i += 1
 
     NewData.to_csv(MissionName, header=False, index=False)
-    pandas.DataFrame(ForFileRenaming).to_csv(OrderFileName, header=False, index=False)
+    pandas.DataFrame(ForFileRenaming).to_csv(OrderFileName, header=True, index=False)
 
 
 # DroneMissionPoints("/Users/ksenator/Documents/GitHub/Apps/routePlanner/litchi_mission.csv")
@@ -146,13 +146,16 @@ def RenamePictures(FilePath):
         i = 0
         Option = 0
         MinDistance = 1000
-        for potentialMgatch in PairsOfPoles:  # every picture needs to go through all of the possible poles
+        for potentialMatch in PairsOfPoles:  # every picture needs to go through all of the possible poles
             AbsDistance = mpu.haversine_distance(pair, potentialMatch)  # distance between them
             if AbsDistance < MinDistance:  # as you go through the poles, set the closest one as the one to match with
                 Option = i
                 MinDistance = AbsDistance  # update min distance
             i += 1
-        ImageID.append(Option)  # add the objectid number to a list that corresponds to the picture list
+        if MinDistance < .015:
+            ImageID.append(Option)  # add the objectid number to a list that corresponds to the picture list
+        else:
+            ImageID.append("skip me")
     ####################################################################################################################
 
     # now, as we are going through and naming the pictures, the letter to be appended needs to update depending on each unique objectid ####################################################################################################
@@ -167,6 +170,9 @@ def RenamePictures(FilePath):
     EndString = ".JPG"
     i = 0
     while i < len(ImageID):
+        if ImageID[i] == "skip me":
+            i += 1
+            continue
         OutString = str(WhatLetterToPick[ImageID[i]][0]) + "_" + Alphabet[WhatLetterToPick[ImageID[i]][1]] + EndString
         print(OutString)
         os.rename(PictureList[i], os.path.join(FilePath, OutString))
@@ -180,7 +186,7 @@ def dms2dd(degrees, minutes, seconds, direction):
         dd *= -1
     return dd
 
-RenamePictures(r'C:\Users\capps\Desktop\pics')
+#RenamePictures(r'C:\Users\capps\Desktop\pics')
 
 def HowManyDJIImages(FilePath):
     # initialize all the data storage and set the path to where the pictures are #####
@@ -192,6 +198,6 @@ def HowManyDJIImages(FilePath):
         if file[len(file) - 3:len(file)] == 'JPG':  # is the file a JPG
             PictureList.append(FilePath + "\\" + file)  # if it is, put it in the list of pictures
     for picture in PictureList:
-        if picture[0:3] == 'DJI':
+        if picture[len(FilePath) + 1:len(FilePath) + 4] == 'DJI':
             DJIImagesCount += 1
     return DJIImagesCount

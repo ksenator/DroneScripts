@@ -51,20 +51,19 @@ class Root(FloatLayout):
 
     def create(self, path, filename):  # Loads the selected directory
         DroneMissionFunctions.DroneMissionPoints(os.path.join(path, filename[0]))
-        # if(CreateMissionDialog.ShowFinishedText):
         self.ids.create_field.text = message1 + "\n" +message2
         self.dismiss_popup()
 
     def rename(self, path, filename):
         ImageCount = DroneMissionFunctions.HowManyDJIImages(os.path.join(path, filename[0]))
         DroneMissionFunctions.RenamePictures(os.path.join(path, filename[0]))
-        NotRenamedCount = ImageCount - DroneMissionFunctions.HowManyDJIImages(os.path.join(path, filename[0]))
+        NotRenamedCount = DroneMissionFunctions.HowManyDJIImages(os.path.join(path, filename[0]))
         if NotRenamedCount == 0:
             self.ids.rename_field.text = "All the images were renamed"
         if NotRenamedCount > 1:
-            self.ids.rename_field.text = str(NotRenamedCount) + " images were not renamed"
+            self.ids.rename_field.text = str(NotRenamedCount) + " of " + str(ImageCount) + " images were not renamed"
         elif NotRenamedCount > 0:
-            self.ids.rename_field.text = str(NotRenamedCount) + " image was not renamed"
+            self.ids.rename_field.text = str(NotRenamedCount) + " of " + str(ImageCount) + " image was not renamed"
 
         self.dismiss_popup()
 

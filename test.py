@@ -84,6 +84,7 @@ for pairs in PairsOfPoleLocations:
 ###################################################################################################################
 
 ImageID = []
+AbsDistanceList = []
 # Now let's go through all the pairs and find their closest neighbor of all of the points of interest and change the name of the image according to the object id of the closest match ##################################################
 for pair in PairsOfData:
     # first we have to compare the pair to each pair of latitude and longitude in the data in the data held over from the route planner import
@@ -96,7 +97,8 @@ for pair in PairsOfData:
             Option = i
             MinDistance = AbsDistance  # update min distance
         i += 1
-    if MinDistance < 6.069:
+    AbsDistanceList.append(MinDistance)
+    if MinDistance < .015:
         ImageID.append(Option)  # add the objectid number to a list that corresponds to the picture list
     else:
         ImageID.append("skip me")
@@ -115,9 +117,10 @@ EndString = ".JPG"
 i = 0
 while i < len(ImageID):
     if ImageID[i] == "skip me":
-        break
+        i += 1
+        continue
     OutString = str(WhatLetterToPick[ImageID[i]][0]) + "_" + Alphabet[WhatLetterToPick[ImageID[i]][1]] + EndString
     print(OutString)
-    # os.rename(PictureList[i], os.path.join(FilePath, OutString))
+    os.rename(PictureList[i], os.path.join(FilePath, OutString))
     WhatLetterToPick[ImageID[i]][1] += 1
     i += 1
